@@ -1,1 +1,2 @@
-web: nodemon app.js
+web: npm start
+worker: npm start
