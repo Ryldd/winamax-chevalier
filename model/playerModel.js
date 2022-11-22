@@ -25,5 +25,19 @@ async function getPlayer(playerId){
    return Player.findById(playerId);
 }
 
-module.exports = {addPlayer, getPlayer}
+async function debitPlayer(playerId, number) {
+   let player = await getPlayer(playerId);
+   player.Looses++;
+   player.FeuillaDollars -= number;
+   await player.save();
+}
+
+async function creditPlayer(playerId, number) {
+   let player = await getPlayer(playerId);
+   player.Wins++;
+   player.FeuillaDollars += number;
+   await player.save();
+}
+
+module.exports = {addPlayer, getPlayer, creditPlayer, debitPlayer}
 

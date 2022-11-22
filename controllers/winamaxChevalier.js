@@ -58,4 +58,49 @@ async function bet(flag, footer, user) {
 
 }
 
-module.exports = {register, me, init, dayMatches, bet}
+async function userBets(user) {
+    const bets = await betController.getUserBets(user.id);
+    const content = {paris: ""};
+    for(bet of bets){
+        if(!bet.Over) {
+            const match = await matchController.getMatch(bet.Match);
+            content.paris += match.EmojiHome + " vs " + match.EmojiAway + " : " + bet.Bet + " à " + bet.Cote + "\n"
+        }
+    }
+    console.log(content)
+    return content;
+}
+
+async function dayResults() {
+    const scores = await betController.dayResults();
+    const content = [];
+
+    for (const score of scores){
+        const score_home = score.scores[0].name === score.home_team ? score.scores[0].score : score.scores[1].score;
+        const score_away = score.scores[0].name === score.away_team ? score.scores[0].score : score.scores[1].score;
+        let result = "Draw";
+        result = score_home > score_away ? "Win" : "Loose";
+
+        const match = await matchController.getMatch(score.id);
+        let cote = match.Draw;
+        cote = result === "Win" ? match.Win : match.Loose;
+
+        const winners = await betController.processBet(score.id, result, cote);
+
+        content.push({
+            Home: score.home_team,
+            EmojiHome: match.EmojiHome,
+            Away: score.away_team,
+            EmojiAway: match.EmojiAway,
+            ScoreHome: score_home,
+            ScoreAway: score_away,
+            Cote: cote,
+            StartDay: match.StartDay,
+            StartHour: match.StartHour,
+            Winners: winners.join(", ")
+        })
+    }
+    return content;
+}
+
+module.exports = {register, me, init, dayMatches, bet, userBets, dayResults}

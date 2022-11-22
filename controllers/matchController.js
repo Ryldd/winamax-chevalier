@@ -4,7 +4,7 @@ const axios = require("axios");
 async function init(){
     const response = await axios.get("https://api.the-odds-api.com/v4/sports/soccer_fifa_world_cup/odds/?apiKey=46816b9b3c089e830c9f9ee9fd20bde4&regions=eu&bookmakers=betclic");
 
-    for(match of response.data){
+    for(const match of response.data){
         const matchData = await matchModel.getMatch(match.Id);
         if(matchData){
             console.log("Match déjà ajouté")

@@ -7,7 +7,8 @@ const betModel = new Schema({
     Match: String,
     Player: String,
     Cote: String,
-    Bet: String
+    Bet: String,
+    Over: Boolean
 }, {_id: false});
 betModel.plugin(autoIncrement);
 
@@ -19,6 +20,7 @@ async function addBet(bet){
     betDB.Player = bet.Player;
     betDB.Cote = bet.Cote;
     betDB.Bet = bet.Bet;
+    betDB.Over = false;
     await betDB.save();
 }
 
@@ -34,5 +36,14 @@ async function getBetByMatchAndPlayer(matchId, playerId){
     return Bet.find({Match: matchId, Player: playerId});
 }
 
-module.exports = {addBet, getBet, getBetsByMatch, getBetByMatchAndPlayer}
+async function getUserBets(userId) {
+    return Bet.find({Player: userId});
+}
+
+async function setOver(bet, b) {
+    bet.Over = b;
+    await bet.save();
+}
+
+module.exports = {addBet, getBet, getBetsByMatch, getBetByMatchAndPlayer, getUserBets, setOver}
 
