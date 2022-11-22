@@ -1,5 +1,6 @@
 const {Discord, GatewayIntentBits, Client, EmbedBuilder} = require('discord.js');
 const cron = require("node-cron");
+const express = require('express');
 const client = new Client({
     intents: [
         GatewayIntentBits.Guilds,
@@ -20,7 +21,10 @@ const connectionParams = {
     useUnifiedTopology: true
 }
 
+const app = express();
+
 const winamaxChevalier = require("./controllers/winamaxChevalier")
+
 
 mongoose.connect(mongoURL, connectionParams)
     .then(() => {
@@ -181,6 +185,6 @@ async function processRequest(message) {
     }
 }
 
-client.listen(process.env.PORT || 3000, () => {
+app.listen(process.env.PORT || 3000, () => {
     console.log('Server on')
 });
