@@ -78,12 +78,18 @@ async function dayResults() {
     for (const score of scores){
         const score_home = score.scores[0].name === score.home_team ? score.scores[0].score : score.scores[1].score;
         const score_away = score.scores[0].name === score.away_team ? score.scores[0].score : score.scores[1].score;
-        let result = "Draw";
-        result = score_home > score_away ? "Win" : "Loose";
-
         const match = await matchController.getMatch(score.id);
+
+        let result = "Draw";
         let cote = match.Draw;
-        cote = result === "Win" ? match.Win : match.Loose;
+        if(score_home > score_away) {
+            result = "Win";
+            cote = match.Win;
+        }
+        else if(score_home < score_away) {
+            result = "Loose";
+            cote = match.Loose;
+        }
 
         const winners = await betController.processBet(score.id, result, cote);
 
