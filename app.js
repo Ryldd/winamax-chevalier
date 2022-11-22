@@ -148,8 +148,9 @@ async function showResults(content) {
             )
             .setFooter({text: match.StartDay + " à " + hour + "h00"});
 
-        thread.send({content: "@everyone", embeds: [embedMe]});
+        thread.send({embeds: [embedMe]});
     }
+    thread.send({content: "@everyone"})
 }
 
 async function showBets(content, message) {
