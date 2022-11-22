@@ -36,6 +36,7 @@ async function getMatch(matchId){
 async function getMatchesOfTheDay() {
     let date = new Date() + "";
     date = date.slice(0,10)
+    console.log(date)
     return Match.find({
         StartDay: date
     });
