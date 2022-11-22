@@ -180,3 +180,7 @@ async function processRequest(message) {
             break;
     }
 }
+
+client.listen(process.env.PORT || 3000, () => {
+    console.log('Server on')
+});
