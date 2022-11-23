@@ -69,7 +69,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
             console.log("react")
             await winamaxChevalier.bet(reaction.emoji.name, reaction.message.embeds[0].data.footer.text, user);
         } catch(error) {
-            thread.send(error.message);
+            console.error(error.message);
         }
     }
 });
