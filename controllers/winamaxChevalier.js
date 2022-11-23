@@ -61,13 +61,15 @@ async function bet(flag, footer, user) {
 async function userBets(user) {
     const bets = await betController.getUserBets(user.id);
     let content = [];
-    for(bet of bets){
-        if(!bet.Over) {
-            const match = await matchController.getMatch(bet.Match);
-            content.push({
-                paris: match.StartHour + "h - " +  match.EmojiHome + " vs " + match.EmojiAway + " : " + bet.Bet + " à " + bet.Cote,
-                start: Number.parseInt(match.StartHour)
-            })
+    if(bets.length > 1){
+        for (bet of bets) {
+            if (!bet.Over) {
+                const match = await matchController.getMatch(bet.Match);
+                content.push({
+                    paris: match.StartHour + "h - " + match.EmojiHome + " vs " + match.EmojiAway + " : " + bet.Bet + " à " + bet.Cote,
+                    start: Number.parseInt(match.StartHour)
+                })
+            }
         }
     }
     console.log(content)

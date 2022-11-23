@@ -154,10 +154,10 @@ async function showResults(content) {
 }
 
 async function showBets(content, message) {
-    if(content.paris === ""){
-        content.paris = "Aucun pari en cours"
-    }
     let desc = "";
+    if(content.length === 0){
+        desc = "Aucun pari en cours"
+    }
     for(bet of content){
         desc += bet.paris + "\n";
     }
