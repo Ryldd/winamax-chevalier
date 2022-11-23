@@ -40,7 +40,7 @@ async function creditPlayer(playerId, number) {
 }
 
 async function getAllPlayers() {
-   return Promise.resolve(undefined);
+   return Player.find();
 }
 
 module.exports = {addPlayer, getPlayer, creditPlayer, debitPlayer, getAllPlayers}

@@ -122,9 +122,35 @@ async function leaderboard(type) {
     }
     if(type === "FD")
         content.sort((a, b) => b.FeuillaDollars - a.FeuillaDollars);
-    else
+    else if(type === "wins")
         content.sort((a, b) => b.Wins - a.Wins);
     return content;
 }
 
-module.exports = {register, me, init, dayMatches, bet, userBets, dayResults, leaderboard}
+async function leaderboardAll() {
+    let content = [];
+    let wins = await leaderboard("wins");
+    let cpt = wins.length;
+    for (win of wins) {
+        content[win.Name] = {
+            id: win._id,
+            Name: win.Name,
+            Wins: win.Wins,
+            FeuillaDollars: win.FeuillaDollars,
+            Points: cpt
+        };
+        cpt--;
+    }
+
+    const fds = await leaderboard("FD");
+    cpt = fds.length;
+    for (fd of fds) {
+        content[fd.Name].Points += cpt;
+        cpt--;
+    }
+
+    content.sort((a, b) => b.Points - a.Points);
+    return content;
+}
+
+module.exports = {register, me, init, dayMatches, bet, userBets, dayResults, leaderboard, leaderboardAll}

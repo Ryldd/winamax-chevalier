@@ -171,7 +171,7 @@ async function showBets(content, message) {
 function showLeaderboard(content, message, type){
     let index = 0;
     const colorsPodium = {Gold:"#C9B037",Silver:"#D7D7D7",Bronze:"#AD8A56",Default:"#FFFFFF"};
-    for (let userEntry of content){
+    for (let name in content){
         index+=1;
         let color = colorsPodium.Default;
         if(index === 1)
@@ -180,14 +180,21 @@ function showLeaderboard(content, message, type){
             color = colorsPodium.Silver;
         else if(index === 3)
             color = colorsPodium.Bronze;
+
         const embedLeaderboard = new EmbedBuilder()
             .setColor(color)
-            .setTitle(index + " - " + userEntry.Name);
-        if(type === "FD")
-            embedLeaderboard.setDescription(userEntry.FeuillaDollars + "$FD");
-        else
-            embedLeaderboard.setDescription(userEntry.Wins + " paris gagnants. Bravo");
-        message.channel.send({content: message.author.toString(), embeds: [embedLeaderboard]});
+            .setTitle(index + " - " + content[name].Name);
+
+        let desc = "";
+        if(type === "FD" || type === "ALL")
+            desc += content[name].FeuillaDollars + "$FD\n";
+        if(type === "wins" || type === "ALL")
+            desc += content[name].Wins + " paris gagnants. Bravo";
+        if(type === "ALL")
+            embedLeaderboard.setFooter({text: content[name].Points + " points globaux"})
+        embedLeaderboard.setDescription(desc);
+
+        message.channel.send({embeds: [embedLeaderboard]});
     }
 }
 
@@ -260,6 +267,9 @@ async function processRequest(message) {
             break;
         case "feuilladollars":
             showLeaderboard(await winamaxChevalier.leaderboard("FD"),message, "FD");
+            break;
+        case "WC_Champion":
+            showLeaderboard(await winamaxChevalier.leaderboardAll(),message, "ALL");
             break;
     }
 }
