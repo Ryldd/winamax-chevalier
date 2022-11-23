@@ -113,17 +113,29 @@ async function leaderboard(type) {
     let players = await playerController.getAllPlayers();
     let content = [];
     for (let player of players) {
+        const ratio = player.Wins / (player.Wins + player.Looses) * 100;
         content.push({
             id: player._id,
             Name: player.Name,
             Wins: player.Wins,
-            FeuillaDollars: player.FeuillaDollars
+            FeuillaDollars: player.FeuillaDollars,
+            Ratio: ratio
         });
     }
     if(type === "FD")
-        content.sort((a, b) => b.FeuillaDollars - a.FeuillaDollars);
+        content.sort(function(a, b) {
+            if(b.FeuillaDollars === a.FeuillaDollars){
+                return b.Wins - a.Wins
+            }
+            return b.FeuillaDollars - a.FeuillaDollars
+        });
     else if(type === "wins")
-        content.sort((a, b) => b.Wins - a.Wins);
+        content.sort(function(a, b) {
+            if(b.Wins === a.Wins){
+                return b.FeuillaDollars - a.FeuillaDollars
+            }
+            return b.Wins - a.Wins
+        });
     return content;
 }
 
@@ -137,7 +149,8 @@ async function leaderboardAll() {
             Name: win.Name,
             Wins: win.Wins,
             FeuillaDollars: win.FeuillaDollars,
-            Points: cpt
+            Points: cpt,
+            Ratio: win.Ratio
         };
         cpt--;
     }
@@ -149,7 +162,11 @@ async function leaderboardAll() {
         cpt--;
     }
 
-    content.sort((a, b) => b.Points - a.Points);
+    content.sort(function (a, b) {
+        if(b.Points === a.Points)
+            return b.Ratio - a.Ratio
+        return b.Points - a.Points
+    });
     return content;
 }
 

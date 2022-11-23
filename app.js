@@ -191,7 +191,7 @@ function showLeaderboard(content, message, type){
         if(type === "wins" || type === "ALL")
             desc += content[name].Wins + " paris gagnants. Bravo";
         if(type === "ALL")
-            embedLeaderboard.setFooter({text: content[name].Points + " points globaux"})
+            embedLeaderboard.setFooter({text: content[name].Points + " points globaux / " + content[name].Ratio + "% de victoire"})
         embedLeaderboard.setDescription(desc);
 
         message.channel.send({embeds: [embedLeaderboard]});
