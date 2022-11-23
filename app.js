@@ -154,14 +154,17 @@ async function showResults(content) {
 }
 
 async function showBets(content, message) {
-    console.log(content)
     if(content.paris === ""){
         content.paris = "Aucun pari en cours"
+    }
+    let desc = "";
+    for(bet of content){
+        desc += bet.paris + "\n";
     }
     const embedMe = new EmbedBuilder()
         .setColor("#8a7916")
         .setTitle("Pari en cours")
-        .setDescription(content.paris)
+        .setDescription(desc)
         .setFooter({text: "Calcul des points tous les soirs à 22h30"});
 
     message.channel.send({content: message.author.toString(), embeds: [embedMe]});

@@ -60,13 +60,18 @@ async function bet(flag, footer, user) {
 
 async function userBets(user) {
     const bets = await betController.getUserBets(user.id);
-    const content = {paris: ""};
+    let content = [];
     for(bet of bets){
         if(!bet.Over) {
             const match = await matchController.getMatch(bet.Match);
-            content.paris += match.EmojiHome + " vs " + match.EmojiAway + " : " + bet.Bet + " à " + bet.Cote + "\n"
+            content.push({
+                paris: match.StartHour + "h - " +  match.EmojiHome + " vs " + match.EmojiAway + " : " + bet.Bet + " à " + bet.Cote,
+                start: Number.parseInt(match.StartHour)
+            })
         }
     }
+    console.log(content)
+    content = content.sort((a, b) => a.start - b.start);
     console.log(content)
     return content;
 }
