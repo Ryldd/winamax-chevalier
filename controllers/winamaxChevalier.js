@@ -109,4 +109,22 @@ async function dayResults() {
     return content;
 }
 
-module.exports = {register, me, init, dayMatches, bet, userBets, dayResults}
+async function leaderboard(type) {
+    let players = await playerController.getAllPlayers();
+    let content = [];
+    for (let player of players) {
+        content.push({
+            id: player._id,
+            Name: player.Name,
+            Wins: player.Wins,
+            FeuillaDollars: player.FeuillaDollars
+        });
+    }
+    if(type === "FD")
+        content.sort((a, b) => b.FeuillaDollars - a.FeuillaDollars);
+    else
+        content.sort((a, b) => b.Wins - a.Wins);
+    return content;
+}
+
+module.exports = {register, me, init, dayMatches, bet, userBets, dayResults, leaderboard}

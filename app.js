@@ -168,6 +168,29 @@ async function showBets(content, message) {
 
 }
 
+function showLeaderboard(content, message, type){
+    let index = 0;
+    const colorsPodium = {Gold:"#C9B037",Silver:"#D7D7D7",Bronze:"#AD8A56",Default:"#FFFFFF"};
+    for (let userEntry of content){
+        index+=1;
+        let color = colorsPodium.Default;
+        if(index === 1)
+            color = colorsPodium.Gold;
+        else if(index === 2)
+            color = colorsPodium.Silver;
+        else if(index === 3)
+            color = colorsPodium.Bronze;
+        const embedLeaderboard = new EmbedBuilder()
+            .setColor(color)
+            .setTitle(index + " - " + userEntry.Name);
+        if(type === "FD")
+            embedLeaderboard.setDescription(userEntry.FeuillaDollars + "$FD");
+        else
+            embedLeaderboard.setDescription(userEntry.Wins + " paris gagnants. Bravo");
+        message.channel.send({content: message.author.toString(), embeds: [embedLeaderboard]});
+    }
+}
+
 async function processRequest(message) {
     const request = message.content.substring(1, message.content.length);
     var words = request.split(" ");
@@ -231,6 +254,12 @@ async function processRequest(message) {
             } else {
                 message.channel.send(message.author.toString() + " non <:pascontent:851365340885024769>");
             }
+            break;
+        case "wins":
+            showLeaderboard(await winamaxChevalier.leaderboard("wins"),message, "wins");
+            break;
+        case "feuilladollars":
+            showLeaderboard(await winamaxChevalier.leaderboard("FD"),message, "FD");
             break;
     }
 }

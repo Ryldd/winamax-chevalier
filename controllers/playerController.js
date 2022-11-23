@@ -12,4 +12,8 @@ async function getPlayer(user){
     return await playerSchema.getPlayer(user.id);
 }
 
-module.exports = {addPlayer, getPlayer}
+async function getAllPlayers() {
+    return await playerSchema.getAllPlayers();
+}
+
+module.exports = {addPlayer, getPlayer, getAllPlayers}

@@ -39,5 +39,9 @@ async function creditPlayer(playerId, number) {
    await player.save();
 }
 
-module.exports = {addPlayer, getPlayer, creditPlayer, debitPlayer}
+async function getAllPlayers() {
+   return Promise.resolve(undefined);
+}
+
+module.exports = {addPlayer, getPlayer, creditPlayer, debitPlayer, getAllPlayers}
 
