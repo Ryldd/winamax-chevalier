@@ -202,8 +202,8 @@ function showLeaderboard(content, message, type){
 }
 
 async function processRequest(message) {
-    const request = message.content.substring(1, message.content.length);
-    var words = request.split(" ");
+    const request = message.content.substring(1, message.content.length).toLowerCase();
+    let words = request.split(" ");
     switch (words[0]) {
         case "register":
             try {
@@ -233,7 +233,7 @@ async function processRequest(message) {
                 message.channel.send(message.author.toString() + " non <:pascontent:851365340885024769>");
             }
             break;
-        case "dayMatches":
+        case "daymatches":
             if (adminId.includes(message.author.id)) {
                 try{
                     await showMatches(await winamaxChevalier.dayMatches());
@@ -245,7 +245,7 @@ async function processRequest(message) {
                 message.channel.send(message.author.toString() + " non <:pascontent:851365340885024769>");
             }
             break;
-        case "myBets":
+        case "bets":
             try{
                 await showBets(await winamaxChevalier.userBets(message.author), message);
             } catch (error){
@@ -268,10 +268,10 @@ async function processRequest(message) {
         case "wins":
             showLeaderboard(await winamaxChevalier.leaderboard("wins"),message, "wins");
             break;
-        case "feuilladollars":
+        case "fd":
             showLeaderboard(await winamaxChevalier.leaderboard("FD"),message, "FD");
             break;
-        case "WC_Champion":
+        case "leaderboard":
             showLeaderboard(await winamaxChevalier.leaderboardAll(),message, "ALL");
             break;
     }
