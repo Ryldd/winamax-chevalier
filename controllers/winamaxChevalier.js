@@ -22,7 +22,7 @@ async function me(user) {
     let userData = await playerController.getPlayer(user);
     if (userData) {
         let content = {
-            "FeuillaDollars": userData.FeuillaDollars,
+            "FeuillaDollars": Number.parseFloat(userData.FeuillaDollars).toFixed(2),
             "Wins": userData.Wins,
             "Looses": userData.Looses
         };
@@ -125,8 +125,8 @@ async function leaderboard(type) {
             id: player._id,
             Name: player.Name,
             Wins: player.Wins,
-            FeuillaDollars: player.FeuillaDollars,
-            Ratio: ratio
+            FeuillaDollars: Number.parseFloat(player.FeuillaDollars).toFixed(2),
+            Ratio: Number.parseFloat(ratio).toFixed(2)
         });
     }
     if(type === "FD")
@@ -155,9 +155,9 @@ async function leaderboardAll() {
             id: win._id,
             Name: win.Name,
             Wins: win.Wins,
-            FeuillaDollars: win.FeuillaDollars,
+            FeuillaDollars: Number.parseFloat(win.FeuillaDollars).toFixed(2),
             Points: cpt,
-            Ratio: win.Ratio
+            Ratio: Number.parseFloat(win.ratio).toFixed(2)
         };
         cpt--;
     }

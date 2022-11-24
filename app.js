@@ -86,7 +86,7 @@ cron.schedule('30 21 * * *', async function (){
 })
 
 function showMe(content, message) {
-    const ratio = content.Wins / (content.Wins + content.Looses);
+    const ratio = Number.parseFloat(content.Wins / (content.Wins + content.Looses)).toFixed(2);
     const ratioTxt = "Ratio: " + ratio*100 + "%";
     console.log(content);
     const embedMe = new EmbedBuilder()
