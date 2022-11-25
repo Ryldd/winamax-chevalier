@@ -75,7 +75,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 });
 
 // Affichage des matchs du jour
-cron.schedule('01 23 * * *', async function (){
+cron.schedule('01 0 * * *', async function (){
     await showMatches(await winamaxChevalier.dayMatches(), null);
 })
 
