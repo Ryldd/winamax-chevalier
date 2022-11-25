@@ -121,13 +121,14 @@ async function leaderboard(type) {
     let players = await playerController.getAllPlayers();
     let content = [];
     for (let player of players) {
-        const ratio = player.Wins / (player.Wins + player.Looses) * 100;
+        const ratio = Number.parseFloat(player.Wins / (player.Wins + player.Looses) * 100.00).toFixed(2);
+        console.log(ratio)
         content.push({
             id: player._id,
             Name: player.Name,
             Wins: player.Wins,
             FeuillaDollars: Number.parseFloat(player.FeuillaDollars).toFixed(2),
-            Ratio: Number.parseFloat(ratio).toFixed(2)
+            Ratio: ratio
         });
     }
     if(type === "FD")
@@ -158,7 +159,7 @@ async function leaderboardAll() {
             Wins: win.Wins,
             FeuillaDollars: Number.parseFloat(win.FeuillaDollars).toFixed(2),
             Points: cpt,
-            Ratio: Number.parseFloat(win.ratio).toFixed(2)
+            Ratio: win.Ratio
         };
         cpt--;
     }
