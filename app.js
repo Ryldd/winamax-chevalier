@@ -201,7 +201,7 @@ async function showLeaderboard(content, message, type){
             embedLeaderboard.setFooter({text: content[name].Points + " points globaux / " + content[name].Ratio + "% de victoire"})
         embedLeaderboard.setDescription(desc);
 
-        thread.channel.send({embeds: [embedLeaderboard]});
+        thread.send({embeds: [embedLeaderboard]});
     }
 }
 
