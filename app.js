@@ -83,6 +83,7 @@ cron.schedule('0 8 * * *', async function (){
 cron.schedule('01 23 * * *', async function (){
     console.log("cron")
     await showResults(await winamaxChevalier.dayResults(), null);
+    showLeaderboard(await winamaxChevalier.leaderboardAll(),message, "ALL");
 })
 
 function showMe(content, message) {
@@ -171,7 +172,10 @@ async function showBets(content, message) {
 
 }
 
-function showLeaderboard(content, message, type){
+async function showLeaderboard(content, message, type){
+    const channel = await client.channels.cache.get(channelID).fetch(true);
+    const thread = await channel.threads.cache.get(threadID).fetch(true);
+
     let index = 0;
     const colorsPodium = {Gold:"#C9B037",Silver:"#D7D7D7",Bronze:"#AD8A56",Default:"#FFFFFF"};
     for (let name in content){
@@ -197,7 +201,7 @@ function showLeaderboard(content, message, type){
             embedLeaderboard.setFooter({text: content[name].Points + " points globaux / " + content[name].Ratio + "% de victoire"})
         embedLeaderboard.setDescription(desc);
 
-        message.channel.send({embeds: [embedLeaderboard]});
+        thread.channel.send({embeds: [embedLeaderboard]});
     }
 }
 
@@ -266,13 +270,13 @@ async function processRequest(message) {
             }
             break;
         case "wins":
-            showLeaderboard(await winamaxChevalier.leaderboard("wins"),message, "wins");
+            await showLeaderboard(await winamaxChevalier.leaderboard("wins"),message, "wins");
             break;
         case "fd":
-            showLeaderboard(await winamaxChevalier.leaderboard("FD"),message, "FD");
+            await showLeaderboard(await winamaxChevalier.leaderboard("FD"),message, "FD");
             break;
         case "leaderboard":
-            showLeaderboard(await winamaxChevalier.leaderboardAll(),message, "ALL");
+            await showLeaderboard(await winamaxChevalier.leaderboardAll(),message, "ALL");
             break;
     }
 }
