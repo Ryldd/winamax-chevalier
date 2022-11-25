@@ -32,7 +32,8 @@ async function me(user) {
 }
 
 async function dayMatches() {
-    return await matchController.dayMatches();
+    const matches = await matchController.dayMatches();
+    return matches.sort((a, b) => a.StartHour - b.StartHour)
 }
 
 async function bet(flag, footer, user) {

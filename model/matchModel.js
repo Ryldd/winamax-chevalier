@@ -26,6 +26,8 @@ async function addMatch(match){
     matchDB.Draw = match.Draw;
     matchDB.StartDay = match.StartDay;
     matchDB.StartHour = match.StartHour;
+    matchDB.EmojiHome = await getEmojiCountry(match.Home);
+    matchDB.EmojiAway = await getEmojiCountry(match.Away);
     await matchDB.save();
 }
 
@@ -41,5 +43,25 @@ async function getMatchesOfTheDay() {
     });
 }
 
-module.exports = {addMatch, getMatch, getMatchesOfTheDay}
+async function updateCote(matchData, win, loose, draw) {
+    matchData.Win = win;
+    matchData.Loose = loose;
+    matchData.Draw = draw;
+    await matchData.save();
+}
+
+async function getEmojiCountry(country){
+    let emoji = "";
+    let match = await Match.find({Home: country});
+
+    if (match.length === 0) {
+        match = await Match.find({Away: country});
+        emoji = match[0].EmojiAway;
+    } else {
+        emoji = match[0].EmojiHome;
+    }
+    return emoji;
+}
+
+module.exports = {addMatch, getMatch, getMatchesOfTheDay, updateCote}
 
