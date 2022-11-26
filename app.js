@@ -113,7 +113,7 @@ async function showMatches(content) {
             .setColor('#8D1B3D')
             .setTitle(match.EmojiHome + " " + match.Home + " VS " + match.EmojiAway + " " + match.Away)
             .setDescription("Côte :" +
-                "\nWin : " + match.Win + " - Loose : " + match.Loose + " - Draw : " + match.Draw)
+                "\nWin : " + match.Win  + " - Draw : " + match.Draw + " - Loose : " + match.Loose)
             .setFooter({text: match.StartDay + " à " + hour + "h00 #"+ match._id});
         thread.send({embeds: [embedMe]}).then(function (message){
             message.react(match.EmojiHome)
