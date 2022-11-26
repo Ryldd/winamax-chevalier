@@ -66,8 +66,9 @@ async function userBets(user) {
         for (bet of bets) {
             if (!bet.Over) {
                 const match = await matchController.getMatch(bet.Match);
+                const hour = Number.parseInt(match.StartHour) + 1;
                 content.push({
-                    paris: match.StartHour + "h - " + match.EmojiHome + " vs " + match.EmojiAway + " : " + bet.Bet + " à " + bet.Cote,
+                    paris: hour + "h - " + match.EmojiHome + " vs " + match.EmojiAway + " : " + bet.Bet + " à " + bet.Cote,
                     start: Number.parseInt(match.StartHour)
                 })
             }
