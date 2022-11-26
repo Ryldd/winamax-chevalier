@@ -83,7 +83,7 @@ cron.schedule('01 0 * * *', async function (){
 cron.schedule('30 21 * * *', async function (){
     console.log("cron")
     await showResults(await winamaxChevalier.dayResults(), null);
-    showLeaderboard(await winamaxChevalier.leaderboardAll(),message, "ALL");
+    await showLeaderboard(await winamaxChevalier.leaderboardAll(), "ALL");
 })
 
 function showMe(content, message) {
@@ -172,7 +172,7 @@ async function showBets(content, message) {
 
 }
 
-async function showLeaderboard(content, message, type){
+async function showLeaderboard(content, type){
     const channel = await client.channels.cache.get(channelID).fetch(true);
     const thread = await channel.threads.cache.get(threadID).fetch(true);
 
@@ -238,15 +238,11 @@ async function processRequest(message) {
             }
             break;
         case "daymatches":
-            if (adminId.includes(message.author.id)) {
-                try{
-                    await showMatches(await winamaxChevalier.dayMatches());
-                } catch (error){
-                    console.log(error);
-                    message.channel.send(message.author.toString() + " " + error.message);
-                }
-            } else {
-                message.channel.send(message.author.toString() + " non <:pascontent:851365340885024769>");
+            try{
+                await showMatches(await winamaxChevalier.dayMatches());
+            } catch (error){
+                console.log(error);
+                message.channel.send(message.author.toString() + " " + error.message);
             }
             break;
         case "bets":
