@@ -126,7 +126,7 @@ async function showMatches(content) {
         .setTitle("⚠️Avertissement⚠️")
         .setDescription("Jouer comporte des risques : endettement, isolement, dépendance. Pour être aidé, appelez le 09-74-75-13-13 (appel non surtaxé)")
         .setFooter({text: "Seul votre premier pari est pris en compte"});
-    thread.send({content: "@everyone", embeds: [embedMe]});
+    thread.send({embeds: [embedMe]});
 }
 
 async function showResults(content) {
