@@ -83,10 +83,12 @@ cron.schedule('01 0 * * *', async function (){
 cron.schedule('55 22 * * *', async function (){
     console.log("cron")
     await showResults(await winamaxChevalier.dayResults(), null);
+    const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+    await delay(5000) /// waiting 5 second.
     await showLeaderboard(await winamaxChevalier.leaderboardAll(), "ALL");
 })
 
-function showMe(content, message) {
+async function showMe(content, message) {
     const ratio = Number.parseFloat(content.Wins / (content.Wins + content.Looses)).toFixed(2);
     const ratioTxt = "Ratio: " + ratio*100 + "%";
     console.log(content);
@@ -219,7 +221,7 @@ async function processRequest(message) {
             break;
         case "me":
             try {
-                showMe(await winamaxChevalier.me(message.author), message);
+                await showMe(await winamaxChevalier.me(message.author), message);
             } catch (error) {
                 message.channel.send(message.author.toString() + " " + error.message);
             }
