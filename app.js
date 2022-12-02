@@ -80,7 +80,7 @@ cron.schedule('01 0 * * *', async function (){
 })
 
 // Affichages des résultats du jour
-cron.schedule('30 21 * * *', async function (){
+cron.schedule('55 22 * * *', async function (){
     console.log("cron")
     await showResults(await winamaxChevalier.dayResults(), null);
     await showLeaderboard(await winamaxChevalier.leaderboardAll(), "ALL");
