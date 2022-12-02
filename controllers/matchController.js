@@ -1,4 +1,5 @@
 const matchModel = require("../model/matchModel");
+const emojiModel = require("../model/emojiModel");
 const axios = require("axios");
 
 async function init(){
@@ -19,13 +20,16 @@ async function init(){
 
         const day = match.commence_time.slice(0,10)
         const hour = match.commence_time.slice(11, 13)
-        if(matchData){
+        if (matchData) {
             console.log("Match déjà ajouté")
             let now = new Date();
-            now = now.toISOString().slice(0,10)
-            if(day !== now)
+            now = now.toISOString().slice(0, 10)
+            if (day !== now)
                 await updateCote(matchData, win, loose, draw);
         } else {
+            const emojiHome = await emojiModel.getEmoji(match.home_team);
+            const emojiAway = await emojiModel.getEmoji(match.away_team);
+
             const matchContent = {
                 Id: match.id,
                 Home: match.home_team,
@@ -34,7 +38,9 @@ async function init(){
                 Loose: loose,
                 Draw: draw,
                 StartDay: day,
-                StartHour: hour
+                StartHour: hour,
+                EmojiHome: emojiHome.Emoji,
+                EmojiAway: emojiAway.Emoji
             };
 
             await matchModel.addMatch(matchContent);

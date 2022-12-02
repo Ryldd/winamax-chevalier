@@ -266,13 +266,13 @@ async function processRequest(message) {
             }
             break;
         case "wins":
-            await showLeaderboard(await winamaxChevalier.leaderboard("wins"),message, "wins");
+            await showLeaderboard(await winamaxChevalier.leaderboard("wins"), "wins");
             break;
         case "fd":
-            await showLeaderboard(await winamaxChevalier.leaderboard("FD"),message, "FD");
+            await showLeaderboard(await winamaxChevalier.leaderboard("FD"), "FD");
             break;
         case "leaderboard":
-            await showLeaderboard(await winamaxChevalier.leaderboardAll(),message, "ALL");
+            await showLeaderboard(await winamaxChevalier.leaderboardAll(), "ALL");
             break;
     }
 }

@@ -26,8 +26,8 @@ async function addMatch(match){
     matchDB.Draw = match.Draw;
     matchDB.StartDay = match.StartDay;
     matchDB.StartHour = match.StartHour;
-    matchDB.EmojiHome = await getEmojiCountry(match.Home);
-    matchDB.EmojiAway = await getEmojiCountry(match.Away);
+    matchDB.EmojiHome = match.EmojiHome;
+    matchDB.EmojiAway = match.EmojiAway;
     await matchDB.save();
 }
 

@@ -123,7 +123,6 @@ async function leaderboard(type) {
     let content = [];
     for (let player of players) {
         const ratio = Number.parseFloat(player.Wins / (player.Wins + player.Looses) * 100.00).toFixed(2);
-        console.log(ratio)
         content.push({
             id: player._id,
             Name: player.Name,
@@ -153,6 +152,7 @@ async function leaderboardAll() {
     let content = [];
     let wins = await leaderboard("wins");
     let cpt = wins.length;
+
     for (win of wins) {
         content[win.Name] = {
             id: win._id,
@@ -172,12 +172,22 @@ async function leaderboardAll() {
         cpt--;
     }
 
-    content.sort(function (a, b) {
-        if(b.Points === a.Points)
-            return b.Ratio - a.Ratio
-        return b.Points - a.Points
+    let sortable = [];
+    for (let name in content) {
+        sortable.push([name, content[name]]);
+    }
+    sortable.sort(function (a, b) {
+        if(b[1].Points === a[1].Points)
+            return b[1].Ratio - a[1].Ratio
+        return b[1].Points - a[1].Points
     });
-    return content;
+
+    let objSorted = {}
+    sortable.forEach(function(item){
+        objSorted[item[0]]=item[1]
+    })
+
+    return objSorted;
 }
 
 module.exports = {register, me, init, dayMatches, bet, userBets, dayResults, leaderboard, leaderboardAll}
