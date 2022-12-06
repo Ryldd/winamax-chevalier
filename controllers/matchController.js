@@ -3,19 +3,25 @@ const emojiModel = require("../model/emojiModel");
 const axios = require("axios");
 
 async function init(){
-    const response = await axios.get("https://api.the-odds-api.com/v4/sports/soccer_fifa_world_cup/odds/?apiKey=46816b9b3c089e830c9f9ee9fd20bde4&regions=eu&bookmakers=betclic");
+    const response = await axios.get("https://api.the-odds-api.com/v4/sports/soccer_fifa_world_cup/odds/?apiKey=46816b9b3c089e830c9f9ee9fd20bde4&regions=eu&bookmakers=betclic&markets=h2h");
 
     for(let match of response.data){
         const matchData = await matchModel.getMatch(match.id);
 
         let win = 0, loose = 0, draw = 0;
-        for(cote of match.bookmakers[0].markets[0].outcomes){
-            if(cote.name === match.home_team)
-                win = cote.price;
-            else if(cote.name === "Draw")
-                draw = cote.price;
-            else
-                loose = cote.price
+        console.log(match)
+        
+        if(match.bookmakers.length > 0){
+            for(cote of match.bookmakers[0].markets[0].outcomes){
+                if(cote.name === match.home_team)
+                    win = cote.price;
+                else if(cote.name === "Draw")
+                    draw = cote.price;
+                else
+                    loose = cote.price
+            }
+        } else {
+            console.error("Aucune cote pour ce match")
         }
 
         const day = match.commence_time.slice(0,10)

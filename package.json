@@ -3,7 +3,8 @@
     "version": "1.0.0",
     "main": "app.js",
     "scripts": {
-        "start": "nodemon app.js"
+        "start": "nodemon app.js",
+        "dev": "env-cmd -f ./env/.env.dev node app.js"
     },
     "dependencies": {
         "axios": "^1.1.3",
@@ -15,7 +16,13 @@
         "nodemon": "^2.0.20"
     },
     "nodemonConfig": {
-        "ignore": ["**/test/**", "**/docs/**"],
+        "ignore": [
+            "**/test/**",
+            "**/docs/**"
+        ],
         "delay": 500
+    },
+    "devDependencies": {
+        "env-cmd": "^10.1.0"
     }
 }
